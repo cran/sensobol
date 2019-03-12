@@ -1,19 +1,6 @@
 
 # FUNCTION TO COMPUTE BOOTSTRAP CONFIDENCE INTERVALS --------------------------
 
-#' Computes Bootstrap confidence intervals
-#'
-#' @param b An object of class 'boot', containing the output
-#' of a bootstrap calculation.
-#' @param conf A scalar or vector containing the confidence
-#' level(s) of the required interval(s).
-#' @param type A vector of character strings representing
-#' the type of intervals required. The value should be any subset
-#' of the values c('norm','basic', 'perc', 'bca').
-#' @importFrom boot 'boot.ci'
-#' @importFrom stats 'sd'
-#'
-#' @return An object of class boot
 bootstats <- function(b, conf = conf, type = type) {
   p <- length(b$t0)
   lab <- c("original", "bias", "std.error", "low.ci", "high.ci")
@@ -24,28 +11,28 @@ bootstats <- function(b, conf = conf, type = type) {
     # original estimation, bias, standard deviation
     tmp[i, "original"] <- b$t0[i]
     tmp[i, "bias"] <- mean(b$t[, i]) - b$t0[i]
-    tmp[i, "std.error"] <- sd(b$t[, i])
+    tmp[i, "std.error"] <- stats::sd(b$t[, i])
     # confidence interval
     if (type == "norm") {
-      ci <- boot.ci(b, index = i, type = "norm", conf = conf)
+      ci <- boot::boot.ci(b, index = i, type = "norm", conf = conf)
       if (!is.null(ci)) {
         tmp[i, "low.ci"] <- ci$norm[2]
         tmp[i, "high.ci"] <- ci$norm[3]
       }
     } else if (type == "basic") {
-      ci <- boot.ci(b, index = i, type = "basic", conf = conf)
+      ci <- boot::boot.ci(b, index = i, type = "basic", conf = conf)
       if (!is.null(ci)) {
         tmp[i, "low.ci"] <- ci$basic[4]
         tmp[i, "high.ci"] <- ci$basic[5]
       }
     } else if (type == "percent") {
-      ci <- boot.ci(b, index = i, type = "perc", conf = conf)
+      ci <- boot::boot.ci(b, index = i, type = "perc", conf = conf)
       if (!is.null(ci)) {
         tmp[i, "low.ci"] <- ci$percent[4]
         tmp[i, "high.ci"] <- ci$percent[5]
       }
     } else if (type == "bca") {
-      ci <- boot.ci(b, index = i, conf = conf)
+      ci <- boot::boot.ci(b, index = i, conf = conf)
       if (!is.null(ci)) {
         tmp[i, "low.ci"] <- ci$bca[4]
         tmp[i, "high.ci"] <- ci$bca[5]
@@ -55,22 +42,6 @@ bootstats <- function(b, conf = conf, type = type) {
   return(tmp)
 }
 
-#' Computes bootstrap confidence intervals
-#'
-#' @param b A boot object with the computed Sobol' indices.
-#' @param params A vector with the name of the model inputs.
-#' @param type A vector of character strings representing
-#' the type of intervals required. The value should be any subset
-#' of the values c('norm','basic', 'perc', 'bca'). For more information,
-#' check the function boot::boot.ci.
-#' @param conf A scalar or vector containing the confidence
-#' level(s) of the required interval(s).
-#' @param second Boolean. If second == TRUE, it computes the confidence
-#' intervals for second-order indices. Default is second == FALSE.
-#' @param third Boolean. If third == TRUE, it computes the confidence
-#' intervals for second-order indices. Default is third == FALSE.
-#'
-#' @return A data table.
 sobol_ci_temp <- function(b, params, type, conf, second = FALSE, third = FALSE) {
   V1 <- NULL
   # Extract first and total order effects
@@ -106,16 +77,6 @@ sobol_ci_temp <- function(b, params, type, conf, second = FALSE, third = FALSE) 
 
 # CREATE TWO VECTORS WITH SENSITIVITY INDICES AND MODEL INPUTS ----------------
 
-#' Creates two vectors with the sensitivity indices and the model
-#' inputs.
-#'
-#' @param params Vector with the name of the model inputs.
-#' @param second Boolean. If second == TRUE, it computes the confidence
-#' intervals for second-order indices. Default is second == FALSE.
-#' @param third Boolean. If third == TRUE, it computes the confidence
-#' intervals for second-order indices. Default is third == FALSE.
-#'
-#' @return A data table.
 create_vectors <- function(params, second = FALSE, third = FALSE) {
   # Define for first and total only
   parameters <- rep(params, each = 2)

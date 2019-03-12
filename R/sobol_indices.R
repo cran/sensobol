@@ -3,16 +3,6 @@
 # FUNCTION TO COMPUTE SOBOL' FIRST AND TOTAL-ORDER EFFECTS USING
 # THE JANSEN 1999 ESTIMATOR FOR FIRST AND TOTAL INDICES -----------------------
 
-#' Computation of first and total-effect Sobol' indices using the
-#' Jansen 1999 estimators.
-#'
-#' @param Y_A Numeric vector, model output of the A matrix.
-#' @param Y_B Numeric vector, model output of the B matrix.
-#' @param Y_AB Numeric vector, model output of the AB matrix,
-#' where the AB matrix is composed of all columns of the
-#' A matrix except the i-th, which comes from the B matrix.
-#'
-#' @return A numeric vector with the first and total Sobol' indices.
 sobol_computeJ <- function(Y_A, Y_B, Y_AB) {
   # Compute sample mean of output
   f0 <- (1 / (2 * length(Y_A))) * sum(Y_A + Y_B)
@@ -25,13 +15,6 @@ sobol_computeJ <- function(Y_A, Y_B, Y_AB) {
   return(c(Si, STi))
 }
 
-#' Wrapper to allow bootstrap of the sobol_computeJ function
-#'
-#' @param d Data table with the model output of
-#' the A, B and AB matrix as columns
-#' @param i Indices to allow bootstrap.
-#'
-#' @return The first and total Sobol' indices.
 sobol_MapplyJ <- function(d, i) {
   data <- d[i, ]
   return(mapply(sobol_computeJ,
@@ -43,22 +26,6 @@ sobol_MapplyJ <- function(d, i) {
 # FUNCTION TO COMPUTE SOBOL' SECOND-ORDER EFFECTS USING
 # THE JANSEN 1999 ESTIMATOR ---------------------------------------------------
 
-#' Computation of second-order Sobol' indices using the
-#' Jansen 1999 estimators.
-#'
-#' @param Y_A Numeric vector, model output of the A matrix.
-#' @param Y_B Numeric vector, model output of the B matrix.
-#' @param Y_ABi Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the i-th,
-#' which comes from the B matrix.
-#' @param Y_ABj Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the j-th,
-#' which comes from the B matrix.
-#' @param Y_ABij Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the i-th
-#' and the j-th, which come from the B matrix.
-#'
-#' @return The second-order indices
 sobol_compute_secondJ <- function(Y_A, Y_B, Y_ABi,
                                   Y_ABj, Y_ABij) {
   # Compute sample mean of output
@@ -73,14 +40,6 @@ sobol_compute_secondJ <- function(Y_A, Y_B, Y_ABi,
   return(Sij)
 }
 
-# Wrapper to allow bootstrap
-#' Wrapper to allow bootstrap of the sobol_compute_secondJ function
-#'
-#' @param d Data table with the model output of
-#' the A, B and AB matrix as columns
-#' @param i Indices to allow bootstrap.
-#'
-#' @return The second-order indices.
 sobol_second_MapplyJ <- function(d, i) {
   data <- d[i, ]
   return(mapply(sobol_compute_secondJ,
@@ -94,35 +53,6 @@ sobol_second_MapplyJ <- function(d, i) {
 # FUNCTION TO COMPUTE SOBOL' THIRD-ORDER EFFECTS USING
 # THE JANSEN 1999 ESTIMATOR ---------------------------------------------------
 
-#' Computation of third-order Sobol' indices using the
-#' Jansen 1999 estimators.
-#'
-#' @param Y_A Numeric vector, model output of the A matrix.
-#' @param Y_B Numeric vector, model output of the B matrix.
-#' @param Y_ABi Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the i-th,
-#' which comes from the B matrix.
-#' @param Y_ABj Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the j-th,
-#' which comes from the B matrix.
-#' @param Y_ABk Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the k-th,
-#' which comes from the B matrix.
-#' @param Y_ABij Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the i-th
-#' and the j-th, which come from the B matrix.
-#' @param Y_ABik Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the i-th
-#' and the k-th, which come from the B matrix.
-#' @param Y_ABjk Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the j-th
-#' and the k-th, which come from the B matrix.
-#' @param Y_ABijk Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the i-th,
-#' the j-th and the k-th, which come from the B matrix.
-#'
-#' @importFrom stats "na.omit"
-#' @return The third-order indices.
 sobol_compute_thirdJ <- function(Y_A, Y_B, Y_ABi,
                                  Y_ABj, Y_ABk, Y_ABij,
                                  Y_ABik, Y_ABjk, Y_ABijk) {
@@ -142,15 +72,6 @@ sobol_compute_thirdJ <- function(Y_A, Y_B, Y_ABi,
   return(Sijk)
 }
 
-# Wrap-up the Sobol' function for third order
-# indices and allow bootstrap
-#' Wrapper to allow bootstrap of the sobol_compute_thirdJ function
-#'
-#' @param d Data table with the model output of
-#' the A, B and AB matrix as columns
-#' @param i Indices to allow bootstrap.
-#'
-#' @return The third-order indices.
 sobol_third_MapplyJ <- function(d, i) {
   data <- d[i, ]
   return(mapply(sobol_compute_thirdJ,
@@ -168,17 +89,6 @@ sobol_third_MapplyJ <- function(d, i) {
 # FUNCTION TO COMPUTE SOBOL' FIRST AND TOTAL-ORDER EFFECTS USING
 # THE JANSEN 1999 ESTIMATOR FOR FIRST AND TOTAL INDICES -----------------------
 
-#' Computation of first and total-effect Sobol' indices using the
-#' Saltelli et al. 2010 estimators.
-#'
-#' @param Y_A Numeric vector, model output of the A matrix.
-#' @param Y_B Numeric vector, model output of the B matrix.
-#' @param Y_AB Numeric vector, model output of the AB matrix,
-#' where the AB matrix is composed of all columns of the
-#' A matrix except the i-th, which comes from the B matrix.
-#'
-#' @return A numeric vector with the first and total Sobol' indices.
-
 sobol_computeS <- function(Y_A, Y_B, Y_AB) {
   # Compute sample mean of output
   f0 <- (1 / (2 * length(Y_A))) * sum(Y_A + Y_B)
@@ -191,15 +101,6 @@ sobol_computeS <- function(Y_A, Y_B, Y_AB) {
   return(c(Si, STi))
 }
 
-
-
-#' Wrapper to allow bootstrap of the sobol_computeS function
-#'
-#' @param d Data table with the model output of
-#' the A, B and AB matrix as columns
-#' @param i Indices to allow bootstrap.
-#'
-#' @return The first and total Sobol' indices.
 sobol_MapplyS <- function(d, i) {
   data <- d[i, ]
   return(mapply(sobol_computeS,
@@ -211,22 +112,6 @@ sobol_MapplyS <- function(d, i) {
 # FUNCTION TO COMPUTE SOBOL' SECOND-ORDER EFFECTS USING
 # THE SALTELLI ET AL. 2010 ESTIMATOR ------------------------------------------
 
-#' Computation of second-order Sobol' indices using the
-#' Saltelli et al. 2010 estimators.
-#'
-#' @param Y_A Numeric vector, model output of the A matrix.
-#' @param Y_B Numeric vector, model output of the B matrix.
-#' @param Y_ABi Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the i-th,
-#' which comes from the B matrix.
-#' @param Y_ABj Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the j-th,
-#' which comes from the B matrix.
-#' @param Y_ABij Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the i-th
-#' and the j-th, which come from the B matrix.
-#'
-#' @return The second-order indices
 sobol_compute_secondS <- function(Y_A, Y_B, Y_ABi,
                                   Y_ABj, Y_ABij) {
   # Compute sample mean of output
@@ -241,14 +126,6 @@ sobol_compute_secondS <- function(Y_A, Y_B, Y_ABi,
   return(Sij)
 }
 
-
-#' Wrapper to allow bootstrap of the sobol_compute_secondS function
-#'
-#' @param d Data table with the model output of
-#' the A, B and AB matrix as columns
-#' @param i Indices to allow bootstrap.
-#'
-#' @return The second-order indices.
 sobol_second_MapplyS <- function(d, i) {
   data <- d[i, ]
   return(mapply(sobol_compute_secondS,
@@ -262,35 +139,6 @@ sobol_second_MapplyS <- function(d, i) {
 # FUNCTION TO COMPUTE SOBOL' THIRD-ORDER EFFECTS USING
 # THE SALTELLI ET AL. 2010 ESTIMATOR ------------------------------------------
 
-#' Computation of third-order Sobol' indices using the
-#' Saltelli et al. 2010 estimators.
-#'
-#' @param Y_A Numeric vector, model output of the A matrix.
-#' @param Y_B Numeric vector, model output of the B matrix.
-#' @param Y_ABi Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the i-th,
-#' which comes from the B matrix.
-#' @param Y_ABj Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the j-th,
-#' which comes from the B matrix.
-#' @param Y_ABk Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the k-th,
-#' which comes from the B matrix.
-#' @param Y_ABij Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the i-th
-#' and the j-th, which come from the B matrix.
-#' @param Y_ABik Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the i-th
-#' and the k-th, which come from the B matrix.
-#' @param Y_ABjk Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the j-th
-#' and the k-th, which come from the B matrix.
-#' @param Y_ABijk Numeric vector, model output of the AB matrix,
-#' where all the columns come from the A matrix except the i-th,
-#' the j-th and the k-th, which come from the B matrix.
-#'
-#' @importFrom stats "na.omit"
-#' @return The third-order indices.
 sobol_compute_thirdS <- function(Y_A, Y_B, Y_ABi,
                                  Y_ABj, Y_ABk, Y_ABij,
                                  Y_ABik, Y_ABjk, Y_ABijk) {
@@ -310,15 +158,6 @@ sobol_compute_thirdS <- function(Y_A, Y_B, Y_ABi,
   return(Sijk)
 }
 
-#' Wrapper to allow bootstrap of the sobol_compute_thirdS function
-#'
-#' @param d Data table with the model output of
-#' the A, B and AB matrix as columns
-#' @param i Indices to allow bootstrap.
-#'
-#' @return The third-order indices.
-# Wrap-up the Sobol' function for second order
-# indices and allow bootstrap
 sobol_third_MapplyS <- function(d, i) {
   data <- d[i, ]
   return(mapply(sobol_compute_thirdS,
@@ -335,15 +174,6 @@ sobol_third_MapplyS <- function(d, i) {
 
 # FUNCTION TO COMPUTE SOBOL' INDICES FOR A DUMMY PARAMETER --------------------
 
-#' Computation of Sobol' indices for a dummy parameter.
-#'
-#' @param Y_A Numeric vector, model output of the A matrix.
-#' @param Y_B Numeric vector, model output of the B matrix.
-#' @param Y_AB Numeric vector, model output of the AB matrix,
-#' where the AB matrix is composed of all columns of the
-#' A matrix except the i-th, which comes from the B matrix.
-#'
-#' @return A numeric vector with the first and total Sobol' indices.
 sobol_dummyT <- function(Y_A, Y_B, Y_AB) {
   f0 <- (1 / length(Y_A)) * sum(Y_A * Y_B)
   VY <- 1 / (2 * length(Y_A) - 1) * sum(Y_A ^ 2 + Y_B ^ 2) - f0
@@ -352,14 +182,6 @@ sobol_dummyT <- function(Y_A, Y_B, Y_AB) {
   return(c(Si, STi))
 }
 
-
-#' Computation of Sobol' indices for a dummy parameter.
-#'
-#' @param d Data table with the model output of
-#' the A, B and AB matrix as columns
-#' @param i Indices to allow bootstrap.
-#'
-#' @return The first and total Sobol' indices for a dummy parameter.
 sobol_dummy_Mapply <- function(d, i) {
   data <- d[i, ]
   return(mapply(sobol_dummyT,
@@ -423,7 +245,7 @@ sobol_dummy <- function(Y, params, R, n,
   out <- data.table::data.table(vec, parameters)
   out.1 <- out %>%
     # remove rows with NA
-    na.omit()
+    stats::na.omit()
   # Bootstrap Sobol'indices
   Si.STi <- out.1[, list(list(boot::boot(.SD,
                                          sobol_dummy_Mapply,
@@ -432,8 +254,6 @@ sobol_dummy <- function(Y, params, R, n,
                                          ncpus = ncpus)))]
   return(Si.STi)
 }
-
-
 
 
 # FUNCTION TO COMPUTE FIRST, SECOND, THIRD AND TOTAL
@@ -488,8 +308,7 @@ sobol_indices <- function(Y, params, type = "jansen",
                           R, n, parallel = "no", ncpus = 1,
                           second = FALSE, third = FALSE) {
   if(second == FALSE & third == TRUE) {
-    stop("The computation of third-order indices requires second == TRUE as it computes
-         second-order indices first")
+    stop("The computation of third-order indices requires second = TRUE as it computes second-order indices first")
   }
   # Calculate the number of parameters
   k <- length(params)
@@ -508,7 +327,7 @@ sobol_indices <- function(Y, params, type = "jansen",
   out <- data.table::data.table(vec, parameters)
   out.1 <- out %>%
     # remove rows with NA
-    na.omit()
+    stats::na.omit()
   # Check which estimator to use for First-order indices
   if(type == "jansen") {
     Estimator1 <- sobol_MapplyJ
@@ -558,7 +377,7 @@ sobol_indices <- function(Y, params, type = "jansen",
     out2[, Y_ABi:= cbind(Y_ABi)][, Y_ABj:= cbind(Y_ABj)]
     # Remove rows with NA
     out3 <- out2 %>%
-      na.omit()
+      stats::na.omit()
     # Bootstrap second-order indices
     Sij <- out3[, list(list(boot::boot(.SD,
                                        Estimator2,
@@ -628,7 +447,7 @@ sobol_indices <- function(Y, params, type = "jansen",
       ]
     # Remove rows with NA
     out5 <- out4 %>%
-      na.omit()
+      stats::na.omit()
     # Bootstrap third-order indices
     Sijk <- out5[, list(list(boot::boot(.SD,
                                         Estimator3,

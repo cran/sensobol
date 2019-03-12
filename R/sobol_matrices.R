@@ -2,16 +2,6 @@
 # INTERNAL FUNCTION TO CREATE THE SCRAMBLED MATRIX FOR THE
 # COMPUTATION OF FIRST-ORDER SOBOL' INDICES -----------------------------------
 
-#' Creation of Sobol' matrices for the computation of
-#' first and total order effects. It is an internal function of
-#' "sobol_matrices".
-#'
-#' @param A The first k Sobol' matrix.
-#' @param B The second k Sobol' matrix.
-#'
-#' @return A matrix.
-#' @export
-
 scrambled_sobol <- function(A, B) {
   X <- rbind(A, B)
   for(i in 1:ncol(A)) {
@@ -25,15 +15,6 @@ scrambled_sobol <- function(A, B) {
 
 # INTERNAL FUNCTION TO CREATE THE SCRAMBLED MATRIX FOR THE
 # COMPUTATION OF SECOND-ORDER SOBOL' INDICES ----------------------------------
-
-#' Creation of Sobol' matrix for the computation of third-order effects. It is
-#' an internal function of "sobol_matrices".
-#'
-#' @param A First k Sobol' matrix.
-#' @param B Second k Sobol' matrix.
-#'
-#' @return A matrix
-#' @export
 
 scrambled_second <- function(A, B) {
   X <- rbind(A, B)
@@ -51,15 +32,6 @@ scrambled_second <- function(A, B) {
 # INTERNAL FUNCTION TO CREATE THE SCRAMBLED MATRIX FOR THE
 # COMPUTATION OF THIRD-ORDER SOBOL' INDICES ----------------------------------
 
-#' Creation of Sobol' matrix for the computation of third-order effects. It is
-#' an internal function of "sobol_matrices".
-#'
-#' @param A First k Sobol' matrix.
-#' @param B Second k Sobol' matrix.
-#'
-#' @return A matrix
-#' @export
-#'
 scrambled_third <- function(A, B) {
   X <- rbind(A, B)
   parms <- utils::combn(1:ncol(A), 3, simplify = FALSE)
@@ -94,7 +66,18 @@ scrambled_third <- function(A, B) {
 #'
 #' @return A matrix.
 #' @export
+#' @details The function generates an \eqn{(n, 2k)} matrix using Sobol' quasi-random
+#' number sequences. The first \emph{k}-matrix is the \strong{A} matrix and the
+#' remaining \emph{k}-matrix, the \strong{B} matrix. It then generates \emph{k}
+#' additional matrices {(\strong{A}^j_{\strong{B}})}, \eqn{j=1,2,...,k}, where
+#' the \emph{k} matrix is composed of all columns of the \strong{A} matrix
+#' except the \emph{j}-th column, which is the \emph{j} column of the
+#' \strong{B} matrix. This approach leds to a total number of model runs of
+#' \eqn{n(k + 2)} for first and total-order indices \insertCite{Saltelli2010a}{sensobol}.
 #'
+#' @importFrom Rdpack reprompt
+#' @references
+#' \insertAllCited{}
 #' @examples
 #' sobol_matrices(n = 100, k = 8, second = TRUE, third = TRUE)
 sobol_matrices <- function(n, k, second = FALSE, third = FALSE) {
@@ -113,8 +96,7 @@ sobol_matrices <- function(n, k, second = FALSE, third = FALSE) {
     AB <- rbind(AB, AB.2)
   }
   if(second == FALSE & third == TRUE) {
-    stop("The computation of third-order Sobol' indices
-         requires the computation of second-order indices first")
+    stop("The computation of third-order Sobol' indices requires the computation of second-order indices first")
   }
   if(second == TRUE & third == TRUE) {
     AB.2 <- scrambled_second(A = A, B = B)

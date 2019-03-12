@@ -1,5 +1,5 @@
 ---
-title: "sensobol: Swift Computation of Sobol' Sensitivity Indices"
+title: "sensobol: Computation of High-Order Sobol' Sensitivity Indices"
 author: "Arnald Puy"
 date: "`r Sys.Date()`"
 output: 

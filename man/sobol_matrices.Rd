@@ -25,8 +25,21 @@ It creates the sample matrices to compute Sobol' first and total-order indices.
 If needed, it also creates the sample matrices required to compute second and
 third-order indices. It uses Sobol' quasi-random number sequences.
 }
+\details{
+The function generates an \eqn{(n, 2k)} matrix using Sobol' quasi-random
+number sequences. The first \emph{k}-matrix is the \strong{A} matrix and the
+remaining \emph{k}-matrix, the \strong{B} matrix. It then generates \emph{k}
+additional matrices {(\strong{A}^j_{\strong{B}})}, \eqn{j=1,2,...,k}, where
+the \emph{k} matrix is composed of all columns of the \strong{A} matrix
+except the \emph{j}-th column, which is the \emph{j} column of the
+\strong{B} matrix. This approach leds to a total number of model runs of
+\eqn{n(k + 2)} for first and total-order indices \insertCite{Saltelli2010a}{sensobol}.
+}
 \examples{
 sobol_matrices(n = 100, k = 8, second = TRUE, third = TRUE)
+}
+\references{
+\insertAllCited{}
 }
 \seealso{
 Check the function \code{\link{sobol}} in the package \code{randtoolbox}

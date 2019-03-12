@@ -113,6 +113,7 @@ plot_sobol <- function(x, dummy = NULL, type = 1) {
 #' @param Y A numeric vector with the model output.
 #'
 #' @return a ggplot2 object.
+#' @import ggplot2
 #' @export
 #'
 #' @examples
@@ -125,6 +126,9 @@ plot_sobol <- function(x, dummy = NULL, type = 1) {
 #' # Plot the model output distribution:
 #' plot_uncertainty(Y)
 plot_uncertainty <- function(Y) {
+  if(is.vector(Y) == FALSE) {
+    stop("Y should be a vector")
+  }
   df <- data.frame(Y)
   gg <- ggplot2::ggplot(df, aes(Y)) +
     geom_histogram(color = "black",
@@ -152,6 +156,7 @@ plot_uncertainty <- function(Y) {
 #' @param params Vector with the name of the model inputs.
 #'
 #' @return A ggplot object.
+#' @import ggplot2
 #' @export
 #'
 #' @examples
