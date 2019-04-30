@@ -4,7 +4,7 @@
 \alias{sobol_matrices}
 \title{Creation of the sample matrices}
 \usage{
-sobol_matrices(n, k, second = FALSE, third = FALSE)
+sobol_matrices(n, k, second = FALSE, third = FALSE, cluster = NULL)
 }
 \arguments{
 \item{n}{Integer, sample size of the Sobol' matrix.}
@@ -16,6 +16,9 @@ matrix required to compute second-order indices. Default is \code{second = FALSE
 
 \item{third}{Logical. If \code{third = TRUE}, it creates the scrambled
 matrix required to compute third-order indices. Default is \code{third = FALSE}.}
+
+\item{cluster}{List of vectors, each vector including the column number
+of the parameters forming the cluster. The default is \code{cluster = NULL}}
 }
 \value{
 A matrix.
@@ -26,7 +29,7 @@ If needed, it also creates the sample matrices required to compute second and
 third-order indices. It uses Sobol' quasi-random number sequences.
 }
 \details{
-The function generates an \eqn{(n, 2k)} matrix using Sobol' quasi-random
+If \code{cluster = NULL}, the function generates an \eqn{(n, 2k)} matrix using Sobol' quasi-random
 number sequences. The first \emph{k}-matrix is the \strong{A} matrix and the
 remaining \emph{k}-matrix, the \strong{B} matrix. It then generates \emph{k}
 additional matrices {(\strong{A}^j_{\strong{B}})}, \eqn{j=1,2,...,k}, where
@@ -34,6 +37,10 @@ the \emph{k} matrix is composed of all columns of the \strong{A} matrix
 except the \emph{j}-th column, which is the \emph{j} column of the
 \strong{B} matrix. This approach leds to a total number of model runs of
 \eqn{n(k + 2)} for first and total-order indices \insertCite{Saltelli2010a}{sensobol}.
+
+If a list of vectors is assigned to \code{cluster}, the output is a scrambled matrix
+with all columns from matrix \strong{A} except those of the parameters included in the cluster, which
+come from matrix \strong{B}.
 }
 \examples{
 sobol_matrices(n = 100, k = 8, second = TRUE, third = TRUE)

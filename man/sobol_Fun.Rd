@@ -7,15 +7,19 @@
 sobol_Fun(X)
 }
 \arguments{
-\item{X}{A data frame or matrix.}
+\item{X}{A data frame or numeric matrix.}
 }
 \value{
 A numeric vector with the model output.
 }
 \description{
-Sobol' G function
+It implements the \insertCite{Sobol1998;textual}{sensobol} function. In this
+case, the function works with 8 model inputs.
 }
 \examples{
 A <- sobol_matrices(n = 100, k = 8)
 Y <- sobol_Fun(A)
+}
+\references{
+\insertAllCited{}
 }

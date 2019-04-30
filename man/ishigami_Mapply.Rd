@@ -7,16 +7,21 @@
 ishigami_Mapply(X)
 }
 \arguments{
-\item{X}{A data frame, data table or matrix with the three model inputs
-required to run the Ishigami function.}
+\item{X}{A data frame or numeric matrix.}
 }
 \value{
 A numeric vector with the model output.
 }
 \description{
-Ishigami function
+It implements the \insertCite{Ishigami1990;textual}{sensobol} function,
+which requires 3 model inputs. The transformation of the
+distribution of the model inputs (from U(0, 1) to U(-pi, +pi)) is conducted
+internally.
 }
 \examples{
 A <- sobol_matrices(n = 100, k = 3)
 Y <- ishigami_Mapply(A)
+}
+\references{
+\insertAllCited{}
 }

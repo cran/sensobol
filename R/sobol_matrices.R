@@ -45,6 +45,20 @@ scrambled_third <- function(A, B) {
   return(AB)
 }
 
+# INTERNAL FUNCTION TO CREATE THE SCRAMBLED MATRIX FOR THE
+# COMPUTATION OF SOBOL' INDICES OF CLUSTERS OF PARAMETERS ---------------------
+
+scrambled_cluster <- function(A, B, cluster) {
+  X <- rbind(A, B)
+  for(i in cluster) {
+    AB <- A
+    AB[, i] <- B[, i]
+    X <- rbind(X, AB)
+  }
+  AB <- X
+  return(AB)
+}
+
 # FUNCTION TO CREATE THE SOBOL' MATRIX FOR THE COMPUTATION OF
 # FIRST AND TOTAL ORDER EFFECTS - AS WELL AS SECOND AND THIRD
 # ORDER EFFECTS, IF DESIRED ---------------------------------------------------
@@ -61,12 +75,14 @@ scrambled_third <- function(A, B) {
 #' matrix required to compute second-order indices. Default is \code{second = FALSE}.
 #' @param third Logical. If \code{third = TRUE}, it creates the scrambled
 #' matrix required to compute third-order indices. Default is \code{third = FALSE}.
+#' @param cluster List of vectors, each vector including the column number
+#'  of the parameters forming the cluster. The default is \code{cluster = NULL}
 #' @seealso Check the function \code{\link{sobol}} in the package \code{randtoolbox}
 #' to see how the Sobol' quasi-random number sequences are constructed.
 #'
 #' @return A matrix.
 #' @export
-#' @details The function generates an \eqn{(n, 2k)} matrix using Sobol' quasi-random
+#' @details If \code{cluster = NULL}, the function generates an \eqn{(n, 2k)} matrix using Sobol' quasi-random
 #' number sequences. The first \emph{k}-matrix is the \strong{A} matrix and the
 #' remaining \emph{k}-matrix, the \strong{B} matrix. It then generates \emph{k}
 #' additional matrices {(\strong{A}^j_{\strong{B}})}, \eqn{j=1,2,...,k}, where
@@ -75,12 +91,16 @@ scrambled_third <- function(A, B) {
 #' \strong{B} matrix. This approach leds to a total number of model runs of
 #' \eqn{n(k + 2)} for first and total-order indices \insertCite{Saltelli2010a}{sensobol}.
 #'
+#' If a list of vectors is assigned to \code{cluster}, the output is a scrambled matrix
+#' with all columns from matrix \strong{A} except those of the parameters included in the cluster, which
+#' come from matrix \strong{B}.
+#'
 #' @importFrom Rdpack reprompt
 #' @references
 #' \insertAllCited{}
 #' @examples
 #' sobol_matrices(n = 100, k = 8, second = TRUE, third = TRUE)
-sobol_matrices <- function(n, k, second = FALSE, third = FALSE) {
+sobol_matrices <- function(n, k, second = FALSE, third = FALSE, cluster = NULL) {
   # Create the Sobol quasi-random number sequence
   df <- randtoolbox::sobol(n = n,
                            dim = k * 2)
@@ -102,6 +122,9 @@ sobol_matrices <- function(n, k, second = FALSE, third = FALSE) {
     AB.2 <- scrambled_second(A = A, B = B)
     AB.3 <- scrambled_third(A = A, B = B)
     AB <- rbind(AB, AB.2, AB.3)
+  }
+  if(is.null(cluster) == FALSE) {
+    AB <- scrambled_cluster(A = A, B = B, cluster = cluster)
   }
   return(AB)
 }

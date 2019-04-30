@@ -1,4 +1,4 @@
-[![Travis build status](https://travis-ci.org/arnaldpuy/sensobol.svg?branch=master)](https://travis-ci.org/arnaldpuy/sensobol) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/arnaldpuy/sensobol?branch=master&svg=true)](https://ci.appveyor.com/project/arnaldpuy/sensobol) [![CRAN_Status_Badge_version_last_release](https://www.r-pkg.org/badges/version-last-release/sensobol)](https://cran.r-project.org/package=sensobol) [![Coverage status](https://codecov.io/gh/arnaldpuy/sensobol/branch/master/graph/badge.svg)](https://codecov.io/github/arnaldpuy/sensobol?branch=master) [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2579855.svg)](https://doi.org/10.5281/zenodo.2579855)
+[![Travis build status](https://travis-ci.org/arnaldpuy/sensobol.svg?branch=master)](https://travis-ci.org/arnaldpuy/sensobol) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/arnaldpuy/sensobol?branch=master&svg=true)](https://ci.appveyor.com/project/arnaldpuy/sensobol) [![CRAN_Status_Badge_version_last_release](https://www.r-pkg.org/badges/version-last-release/sensobol)](https://cran.r-project.org/package=sensobol) [![metacran downloads](https://cranlogs.r-pkg.org/badges/last-week/sensobol)](https://cran.r-project.org/package=sensobol) [![metacran downloads](https://cranlogs.r-pkg.org/badges/grand-total/sensobol)](https://cran.r-project.org/package=sensobol) [![Coverage status](https://codecov.io/gh/arnaldpuy/sensobol/branch/master/graph/badge.svg)](https://codecov.io/github/arnaldpuy/sensobol?branch=master) [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2579855.svg)](https://doi.org/10.5281/zenodo.2579855)
 
 # sensobol
 
@@ -45,7 +45,7 @@ Please use the following citation if you use `sensobol` in your publications:
 
 ```r
 Arnald Puy (2019). sensobol: Computation of High-Order Sobol' Sensitivity Indices. R package
-  version 0.1.0. http://github.com/arnaldpuy/sensobol
+  version 0.2.0 http://github.com/arnaldpuy/sensobol
 ```
 
 A BibTex entry for LaTex users is:
@@ -55,7 +55,7 @@ A BibTex entry for LaTex users is:
     title = {sensobol: Computation of High-Order Sobol' Sensitivity Indices},
     author = {Arnald Puy},
     year = {2019},
-    note = {R package version 0.1.0},
+    note = {R package version 0.2.0},
     url = {http://github.com/arnaldpuy/sensobol},
   }
 ```
