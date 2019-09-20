@@ -27,6 +27,7 @@ After loading the package, the first step is to define the settings of the uncer
 
 ```{r creation_matrix}
 library(sensobol)
+library(ggplot2) # To plot the Sobol' bootstrap replicas
 
 # Define settings -----------------------------------------
 
@@ -53,7 +54,7 @@ Once the model output is computed, it is informative to visualize its uncertaint
 
 # Plot distribution of model output -----------------------
 
-plot_uncertainty(Y)
+plot_uncertainty(Y, n = N)
 ```
 
 ## Sensitivity analysis
@@ -94,30 +95,31 @@ The output of `sobol_indices` is a `data.table` with two columns: firstly, the c
 print(dt)
 ```
 
-We can access and check the bootstrap replicas of the first and total-order indices as follows:
+We can access the bootstrap replicas with the `sobol_replicas` function. Here we will only access the replicas of the first and total-order indices:
 
-```{r boot_replicas, fig.height=5, fig.width=5, fig.cap="Distribution of the bootstrap replicas."}
+```{r boot_replicas, fig.height=6.5, fig.width=6.5, fig.cap="Distribution of the bootstrap replicas. For better-shaped histograms, increase the sample size R."}
 
 # Access boot replicas ------------------------------------
 
-# Copy data table
-b.rep <- data.table::copy(dt)
-
-# Retrieve
-tmp1 <- b.rep[1:k, lapply(V1, function(x) x[["t"]])][
-  , sensitivity:= rep(c("Si", "STi"), each = R)
-  ]
-
-# Melt
-temp2 <- data.table::melt(tmp1, measure.vars = 1:k)
+# Extract boot samples
+b.rep <- sobol_replicas(dt = dt, k = k)
 
 # Plot
-plot_uncertainty(temp2[, value]) +
-  ggplot2::facet_wrap(temp2[, sensitivity]~temp2[, variable], 
-                      scales = "free_x") +
-  ggplot2::labs(x = "Variance", 
-                y = "Count") +
-  ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(n = 3))
+ggplot2::ggplot(b.rep, aes(value)) +
+  geom_histogram() +
+  labs(x = "Y",
+       y = "Count") +
+  facet_wrap(parameters~variable, 
+             scales = "free") +
+  labs(x = "Variance", 
+       y = "Count") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.background = element_rect(fill = "transparent",
+                                         color = NA),
+        legend.key = element_rect(fill = "transparent",
+                                  color = NA)) 
 ```
 
 Once we have assessed the distribution of the replicas, we can decide which confidence interval suits our data best. `sensobol` currently offers suport for normal, percentile, bca and basic confidence intervals, all retrieved internally from the `boot::boot.ci` function. In this case, we will compute normal confidence intervals:

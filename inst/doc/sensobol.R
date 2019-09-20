@@ -6,6 +6,7 @@ knitr::opts_chunk$set(
 
 ## ----creation_matrix-----------------------------------------------------
 library(sensobol)
+library(ggplot2) # To plot the Sobol' bootstrap replicas
 
 # Define settings -----------------------------------------
 
@@ -27,7 +28,7 @@ Y <- sobol_Fun(A)
 
 # Plot distribution of model output -----------------------
 
-plot_uncertainty(Y)
+plot_uncertainty(Y, n = N)
 
 ## ----plot_scatter, fig.height=6.5, fig.width=5---------------------------
 
@@ -56,28 +57,29 @@ dt <- sobol_indices(Y = Y,
 
 print(dt)
 
-## ----boot_replicas, fig.height=5, fig.width=5, fig.cap="Distribution of the bootstrap replicas."----
+## ----boot_replicas, fig.height=6.5, fig.width=6.5, fig.cap="Distribution of the bootstrap replicas. For better-shaped histograms, increase the sample size R."----
 
 # Access boot replicas ------------------------------------
 
-# Copy data table
-b.rep <- data.table::copy(dt)
-
-# Retrieve
-tmp1 <- b.rep[1:k, lapply(V1, function(x) x[["t"]])][
-  , sensitivity:= rep(c("Si", "STi"), each = R)
-  ]
-
-# Melt
-temp2 <- data.table::melt(tmp1, measure.vars = 1:k)
+# Extract boot samples
+b.rep <- sobol_replicas(dt = dt, k = k)
 
 # Plot
-plot_uncertainty(temp2[, value]) +
-  ggplot2::facet_wrap(temp2[, sensitivity]~temp2[, variable], 
-                      scales = "free_x") +
-  ggplot2::labs(x = "Variance", 
-                y = "Count") +
-  ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(n = 3))
+ggplot2::ggplot(b.rep, aes(value)) +
+  geom_histogram() +
+  labs(x = "Y",
+       y = "Count") +
+  facet_wrap(parameters~variable, 
+             scales = "free") +
+  labs(x = "Variance", 
+       y = "Count") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.background = element_rect(fill = "transparent",
+                                         color = NA),
+        legend.key = element_rect(fill = "transparent",
+                                  color = NA)) 
 
 ## ----ci_sobol------------------------------------------------------------
 

@@ -1,4 +1,70 @@
 
+
+# EXTRACT BOOTSTRAP REPLICAS --------------------------------------------------
+
+#' Extract bootstrap replicas
+#'
+#' It creates a `data.table` with all the bootstrap replicas.
+#'
+#' @param dt The output of the `sobol_indices` function.
+#' @param k The number of parameters.
+#' @param second Logical. If \code{second = TRUE}, it computes the confidence
+#' intervals for second-order indices. Default is \code{second = FALSE}.
+#' @param third Logical. If \code{third = TRUE}, it computes the confidence
+#' intervals for third-order indices. Default is \code{third = FALSE}.
+#'
+#' @importFrom utils "combn"
+#' @importFrom rlang ":="
+#' @importFrom data.table ".SD"
+#'
+#' @return A `data.table`.
+#' @export
+#'
+#' @examples
+#' # Define settings:
+#' n <- 100; k <- 8; R <- 100
+#' # Design the sample matrix:
+#' A <- sobol_matrices(n = n, k = k, second = TRUE, third = TRUE)
+#' # Compute the model output:
+#' Y <- sobol_Fun(A)
+#' # Compute the Sobol' indices:
+#' \donttest{sens <- sobol_indices(Y = Y, params = colnames(data.frame(A)),
+#' R = R, n = n, parallel = "no", ncpus = 1, second = TRUE, third = TRUE)
+#' # Extract the bootstrap replicas up to third-order
+#' replicas <- sobol_replicas(dt = sens, k = k, second = TRUE, third = TRUE)}
+
+sobol_replicas <- function(dt, k, second = FALSE, third = FALSE) {
+  All <- V1 <- parameters <- replicas <- NULL
+  # Extract first and total-order replicas
+  first.and.total <- dt[1:k, "All":= list(lapply(V1, function(x) x["t"]))][
+    , list("Si" = lapply(All, function(x) lapply(x, function(y) y[, 1])),
+           "STi" = lapply(All, function(x) lapply(x, function(y) y[, 2]))),
+      parameters][
+    , lapply(.SD, unlist), .SDcols = c("Si", "STi"), parameters]
+  first.and.total <- data.table::melt(first.and.total, measure.vars = c("Si", "STi"))
+  out <- first.and.total
+  if(second == TRUE) {
+    # Extract up to second-order replicas
+    second <- dt[(k + 1): (k + length(combn(1:k, 2, simplify = FALSE)))][
+      , "replicas":= list(lapply(V1, function(x) x["t"]))][
+      , list("Sij" = lapply(replicas, function(x) lapply(x, function(y) y[, 1]))), parameters][
+      , lapply(.SD, unlist), .SDcols = "Sij", parameters]
+    second <- data.table::melt(second, measure.vars = "Sij")
+    out <- rbind(first.and.total, second)
+  }
+  if(third == TRUE) {
+    # Extract up to third-order replicas
+    first.plus.second <- k + (length(combn(1:k, 2, simplify = FALSE)))
+    third <- dt[(first.plus.second + 1):(first.plus.second + length(combn(1:k, 3, simplify = FALSE)))][
+      , "replicas":= list(lapply(V1, function(x) x["t"]))][
+      , list("Sijk" = lapply(replicas, function(x) lapply(x, function(y) y[, 1]))), parameters][
+      , lapply(.SD, unlist), .SDcols = "Sijk", parameters]
+    third <- data.table::melt(third, measure.vars = "Sijk", variable.name = "sensitivity")
+    out <- rbind(first.and.total, second, third)
+  }
+  return(out)
+}
+
 # FUNCTION TO COMPUTE BOOTSTRAP CONFIDENCE INTERVALS --------------------------
 
 bootstats <- function(b, conf = conf, type = type) {

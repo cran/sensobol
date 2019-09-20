@@ -111,6 +111,7 @@ plot_sobol <- function(x, dummy = NULL, type = 1) {
 #' It creates an histogram with the model output distribution.
 #'
 #' @param Y A numeric vector with the model output.
+#' @param n An integer with the initial sample size.
 #'
 #' @return a ggplot2 object.
 #' @import ggplot2
@@ -124,11 +125,15 @@ plot_sobol <- function(x, dummy = NULL, type = 1) {
 #' # Compute the model output:
 #' Y <- sobol_Fun(A)
 #' # Plot the model output distribution:
-#' plot_uncertainty(Y)
-plot_uncertainty <- function(Y) {
+#' plot_uncertainty(Y, n = n)
+plot_uncertainty <- function(Y, n = NULL) {
   if(is.vector(Y) == FALSE) {
     stop("Y should be a vector")
   }
+  if(is.null(n) == TRUE) {
+    stop("n should be specified")
+  }
+  Y <- Y[1:(2*n)]
   df <- data.frame(Y)
   gg <- ggplot2::ggplot(df, aes(Y)) +
     geom_histogram(color = "black",

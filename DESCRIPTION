@@ -1,6 +1,6 @@
 Package: sensobol
 Title: Computation of High-Order Sobol' Sensitivity Indices
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: c(person(given = "Arnald", 
                     family = "Puy",
                     role = c("aut", "cre"),
@@ -38,11 +38,11 @@ VignetteBuilder: knitr
 URL: http://github.com/arnaldpuy/sensobol
 BugReports: http://github.com/arnaldpuy/sensobol/issues
 NeedsCompilation: no
-Packaged: 2019-04-30 16:07:58 UTC; arnald
+Packaged: 2019-09-20 13:33:51 UTC; arnald
 Author: Arnald Puy [aut, cre] (<https://orcid.org/0000-0001-9469-2156>),
   Bertrand Ioos [ctb] (Author of included 'sensitivity' fragments),
   Gilles Pujol [ctb] (Author of included 'sensitivity' fragments),
   RStudio [cph] (Copyright holder of included 'sensitivity' fragments)
 Maintainer: Arnald Puy <arnald.puy@gmail.com>
 Repository: CRAN
-Date/Publication: 2019-04-30 16:30:02 UTC
+Date/Publication: 2019-09-20 13:50:02 UTC

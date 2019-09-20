@@ -4,10 +4,12 @@
 \alias{plot_uncertainty}
 \title{Plot model output uncertainty}
 \usage{
-plot_uncertainty(Y)
+plot_uncertainty(Y, n = NULL)
 }
 \arguments{
 \item{Y}{A numeric vector with the model output.}
+
+\item{n}{An integer with the initial sample size.}
 }
 \value{
 a ggplot2 object.
@@ -23,5 +25,5 @@ A <- sobol_matrices(n = n, k = k, second = FALSE, third = FALSE)
 # Compute the model output:
 Y <- sobol_Fun(A)
 # Plot the model output distribution:
-plot_uncertainty(Y)
+plot_uncertainty(Y, n = n)
 }
