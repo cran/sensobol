@@ -4,8 +4,17 @@
 \alias{sobol_indices}
 \title{Computation of first, second, third and total-order Sobol' indices}
 \usage{
-sobol_indices(Y, params, type = "jansen", R, n, parallel = "no",
-  ncpus = 1, second = FALSE, third = FALSE)
+sobol_indices(
+  Y,
+  params,
+  type = "jansen",
+  R,
+  n,
+  parallel = "no",
+  ncpus = 1,
+  second = FALSE,
+  third = FALSE
+)
 }
 \arguments{
 \item{Y}{Numeric vector, model output.}

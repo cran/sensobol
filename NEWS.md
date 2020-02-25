@@ -1,3 +1,26 @@
+# sensobol 0.2.2
+
+* This release prepares the package for a major improvement, upcoming in the next weeks.
+
+* Added warnings to the function `sobol_matrices`. The arguments `n` and `k` will
+be substituted by `N` and `params` in the next release of the package. The 
+arguments `second` and `third` will be substituted by the argument `order` in the next
+release of the package.
+
+* Added warnings to the functions `plot_uncertainty`, `plot_scatter`, `sobol_dummy` and `sobol_indices`. The argument `n` will be substituted by `N` in the next release of the package. 
+
+* The function `sobol_ci` is deprecated. The computation of confidence intervals
+will be done directly by `sobol_indices` in the next version of the package.
+
+* The function `sobol_ci_dummy` is deprecated. The computation of confidence intervals
+for dummy parameters will be done directly by `sobol_dummy` in the next version of the package.
+
+* The function `sobol_replicas` is deprecated and will be removed in the next version
+of the package.
+
+* The test function `ishigami_Mapply` would be renamed as `ishigami_Fun` in the next
+release of the package.
+
 # sensobol 0.2.1
 
 * Corrected a bug in the `plot_uncertainty` function. Now the function

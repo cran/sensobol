@@ -34,6 +34,7 @@
 #' replicas <- sobol_replicas(dt = sens, k = k, second = TRUE, third = TRUE)}
 
 sobol_replicas <- function(dt, k, second = FALSE, third = FALSE) {
+  .Deprecated(msg = "sobol_replicas will be removed in the next version")
   All <- V1 <- parameters <- replicas <- NULL
   # Extract first and total-order replicas
   first.and.total <- dt[1:k, "All":= list(lapply(V1, function(x) x["t"]))][
@@ -216,6 +217,7 @@ create_vectors <- function(params, second = FALSE, third = FALSE) {
 #' # Compute confidence intervals:
 #' sobol_ci(sens, params = colnames(data.frame(A)), type = "norm", conf = 0.95)}
 sobol_ci <- function(b, params, type, conf, second = FALSE, third = FALSE) {
+  .Deprecated(msg = "sobol_ci will be removed in the next version as the computation of confidence intervals will be done directly by sobol_indices")
   out <- sobol_ci_temp(b = b, params = params, type = type,
                         conf = conf, second = second, third = third) %>%
     cbind(create_vectors(params = params, second = second, third = third))
@@ -255,6 +257,7 @@ sobol_ci <- function(b, params, type, conf, second = FALSE, third = FALSE) {
 #' # Compute the confidence intervals for the dummy parameter:
 #' sobol_ci_dummy(s.dummy, type = "norm", conf = 0.95)
 sobol_ci_dummy <- function(b, type = type, conf = conf) {
+  .Deprecated(msg = "sobol_ci_dummy will be removed in the next version as the computation of confidence intervals will be done directly by the function sobol_dummy")
   V1 <- NULL
   sensitivity <- c("Si", "STi")
   parameters <- "dummy"

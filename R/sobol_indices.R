@@ -228,6 +228,8 @@ sobol_dummy_Mapply <- function(d, i) {
 #' sobol_dummy(Y = Y, params = colnames(data.frame(A)), R = R, n = n)
 sobol_dummy <- function(Y, params, R, n,
                         parallel = "no", ncpus = 1) {
+  warning("The argument n will turn into N in the next release of the package")
+  warning("The computation of confidence intervals for the dummy parameter will be directly done by sobol_dummy")
   # Calculate the number of parameters
   k <- length(params)
   # Calculate the length of the A and B matrices
@@ -307,8 +309,18 @@ sobol_dummy <- function(Y, params, R, n,
 sobol_indices <- function(Y, params, type = "jansen",
                           R, n, parallel = "no", ncpus = 1,
                           second = FALSE, third = FALSE) {
+  warning("The argument n will turn into N in the next release of the package")
+  if (!missing("type")) {
+    warning("type is deprecated and will be removed in the next version")
+  }
+  if (!missing("second")) {
+    warning("second is deprecated and will be removed in the next version. The computation of second/third order effects will be done with the argument order")
+  }
+  if (!missing("third")) {
+    warning("third is deprecated and will be removed in the next version")
+  }
   if(second == FALSE & third == TRUE) {
-    stop("The computation of third-order indices requires second = TRUE as it computes second-order indices first")
+    stop("The computation of third-order indices requires second = TRUE as it computes second-order indices first. The computation of second/third order effects will be done with the argument orde")
   }
   # Calculate the number of parameters
   k <- length(params)

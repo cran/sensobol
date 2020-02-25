@@ -127,6 +127,7 @@ plot_sobol <- function(x, dummy = NULL, type = 1) {
 #' # Plot the model output distribution:
 #' plot_uncertainty(Y, n = n)
 plot_uncertainty <- function(Y, n = NULL) {
+  warning("The argument n will be substituted by N in the next release of the package")
   if(is.vector(Y) == FALSE) {
     stop("Y should be a vector")
   }
@@ -174,6 +175,7 @@ plot_uncertainty <- function(Y, n = NULL) {
 #' # Plot scatterplots:
 #' plot_scatter(x = A, Y = Y, n = n, params = colnames(data.frame(A)))
 plot_scatter <- function(x, Y, n, params) {
+  warning("The argument n will be substituted by N in the next release of the package")
   value <- NULL
   dt <- data.table::data.table(cbind(x, Y))
   # Retrieve the A and B matrices only

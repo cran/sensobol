@@ -101,6 +101,8 @@ scrambled_cluster <- function(A, B, cluster) {
 #' @examples
 #' sobol_matrices(n = 100, k = 8, second = TRUE, third = TRUE)
 sobol_matrices <- function(n, k, second = FALSE, third = FALSE, cluster = NULL) {
+  warning("The arguments n and k will turn into N and params in the next release of the package")
+  warning("second and third will be substituted by the argument order in the next release of the package")
   # Create the Sobol quasi-random number sequence
   df <- randtoolbox::sobol(n = n,
                            dim = k * 2)
@@ -128,3 +130,4 @@ sobol_matrices <- function(n, k, second = FALSE, third = FALSE, cluster = NULL) 
   }
   return(AB)
 }
+

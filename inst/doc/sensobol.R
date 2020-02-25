@@ -1,10 +1,10 @@
-## ----setup, include = FALSE----------------------------------------------
+## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ----creation_matrix-----------------------------------------------------
+## ----creation_matrix----------------------------------------------------------
 library(sensobol)
 library(ggplot2) # To plot the Sobol' bootstrap replicas
 
@@ -24,13 +24,13 @@ A <- sobol_matrices(n = N,
 # Compute model output ------------------------------------
 Y <- sobol_Fun(A)
 
-## ----plot_uncertainty, fig.height=3, fig.width=4-------------------------
+## ----plot_uncertainty, fig.height=3, fig.width=4------------------------------
 
 # Plot distribution of model output -----------------------
 
 plot_uncertainty(Y, n = N)
 
-## ----plot_scatter, fig.height=6.5, fig.width=5---------------------------
+## ----plot_scatter, fig.height=6.5, fig.width=5--------------------------------
 
 # Scatterplots of model inputs vs. model output -----------
 
@@ -39,7 +39,7 @@ plot_scatter(x = A,
              n = N, 
              params = params)
 
-## ----compute_sobol-------------------------------------------------------
+## ----compute_sobol------------------------------------------------------------
 
 # Compute Sobol' indices ----------------------------------
 
@@ -51,7 +51,7 @@ dt <- sobol_indices(Y = Y,
                     second = TRUE, 
                     third = TRUE)
 
-## ----print_output--------------------------------------------------------
+## ----print_output-------------------------------------------------------------
 
 # Show output of the sobol_indices function ---------------
 
@@ -81,7 +81,7 @@ ggplot2::ggplot(b.rep, aes(value)) +
         legend.key = element_rect(fill = "transparent",
                                   color = NA)) 
 
-## ----ci_sobol------------------------------------------------------------
+## ----ci_sobol-----------------------------------------------------------------
 
 # Compute confidence intervals ----------------------------
 
@@ -92,7 +92,7 @@ dt.ci <- sobol_ci(dt,
                   second = TRUE, 
                   third = TRUE) 
 
-## ----sobol_dummy---------------------------------------------------------
+## ----sobol_dummy--------------------------------------------------------------
 
 # Compute Sobol' indices of a dummy parameter -------------
 
@@ -101,7 +101,7 @@ dt.dummy <- sobol_dummy(Y = Y,
                         R = R, 
                         n = N)
 
-## ----sobol_dummy_ci------------------------------------------------------
+## ----sobol_dummy_ci-----------------------------------------------------------
 
 # Compute confidence intervals for the dummy parameter ----
 
@@ -115,7 +115,7 @@ dt.dummy.ci <- sobol_ci_dummy(dt.dummy,
 
 plot_sobol(dt.ci, dummy = dt.dummy.ci, type = 1)
 
-## ----plot_sobol_second, fig.height=3.5, fig.width=7.2--------------------
+## ----plot_sobol_second, fig.height=3.5, fig.width=7.2-------------------------
 
 # Plot Sobol' second and third-order indices ------------------------
 

@@ -52,6 +52,7 @@ ishigami <- function(X1, X2, X3) {
 #' A <- sobol_matrices(n = 100, k = 3)
 #' Y <- ishigami_Mapply(A)
 ishigami_Mapply <- function(X) {
+  warning("ishigami_Mapply will be substituted by ishigami_Fun in the next release of the package")
   X <- apply(X, 2, function(x) x * (pi + pi) - pi)
   return(mapply(ishigami,
                 X[, 1],
