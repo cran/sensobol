@@ -2,23 +2,34 @@
 % Please edit documentation in R/test_functions.R
 \name{bratley1992_Fun}
 \alias{bratley1992_Fun}
-\title{Bratley, Fox and Niederreiter (1992) function}
+\title{Bratley, Fox and Niederreiter (1992) function.}
 \usage{
 bratley1992_Fun(X)
 }
 \arguments{
-\item{X}{A data frame or numeric matrix.}
+\item{X}{A data frame or numeric matrix where each column is a model input and each
+row a sample point.}
 }
 \value{
 A numeric vector with the model output.
 }
 \description{
-It implements the \insertCite{Bratley1992;textual}{sensobol} function,
-#' which requires \emph{n} model inputs.
+It implements the \insertCite{Bratley1992;textual}{sensobol} function.
+}
+\details{
+The function requires \eqn{k} model inputs and reads as:
+\deqn{y=\sum_{i=1}^{k}(-1)^i\prod_{j=1}^{i}x_j\,,}
+where \eqn{x_i\sim\mathcal{U}(0,1)}.
 }
 \examples{
-A <- sobol_matrices(n = 100, k = 4)
-Y <- bratley1992_Fun(A)
+# Define settings (test with k = 10)
+N <- 100; params <- paste("X", 1:10, sep = "")
+
+# Create sample matrix
+mat <- sobol_matrices(N = N, params = params)
+
+# Compute Bratley et al. (1992) function
+Y <- bratley1992_Fun(mat)
 }
 \references{
 \insertAllCited{}

@@ -2,33 +2,43 @@
 % Please edit documentation in R/plot_sobol.R
 \name{plot_scatter}
 \alias{plot_scatter}
-\title{Scatterplots of the model output against the model inputs}
+\title{Scatter plots of the model output against the model inputs.}
 \usage{
-plot_scatter(x, Y, n, params)
+plot_scatter(data, N, Y, params, method = "point", size = 0.7, alpha = 0.2)
 }
 \arguments{
-\item{x}{A data table, data frame or matrix with the
-model inputs.}
+\item{data}{The matrix created with \code{\link{sobol_matrices}}.}
 
-\item{Y}{Numeric vector with the model output.}
+\item{N}{Positive integer, the initial sample size of the base sample matrix created with \code{sobol_matrices}.}
 
-\item{n}{Integer, sample size of the Sobol' matrix.}
+\item{Y}{A numeric vector with the model output obtained from the matrix created with
+\code{\link{sobol_matrices}}.}
 
-\item{params}{Vector with the name of the model inputs.}
+\item{params}{Character vector with the name of the model inputs.}
+
+\item{method}{The type of plot. If \code{method = "point"} (the default), each simulation is a point.
+If \code{method = "bin"}, bins are used to aggregate simulations.}
+
+\item{size}{Number between 0 and 1, argument of \code{geom_point()}. Default is 0.7.}
+
+\item{alpha}{Number between 0 and 1, transparency scale of \code{geom_point()}. Default is 0.2.}
 }
 \value{
-A ggplot object.
+A \code{ggplot2} object.
 }
 \description{
-Scatterplots of the model output against the model inputs
+It creates scatter plots of the model output against the model inputs.
 }
 \examples{
-# Define settings:
-n <- 100; k <- 8; R <- 10
-# Design the sample matrix:
-A <- sobol_matrices(n = n, k = k, second = TRUE, third = TRUE)
-# Compute the model output:
-Y <- sobol_Fun(A)
-# Plot scatterplots:
-plot_scatter(x = A, Y = Y, n = n, params = colnames(data.frame(A)))
+# Define settings
+N <- 1000; params <- paste("X", 1:3, sep = ""); R <- 10
+
+# Create sample matrix
+mat <- sobol_matrices(N = N, params = params)
+
+# Compute Ishigami function
+Y <- ishigami_Fun(mat)
+
+# Plot scatter
+plot_scatter(data = mat, Y = Y, N = N, params = params)
 }

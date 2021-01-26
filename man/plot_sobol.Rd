@@ -2,43 +2,38 @@
 % Please edit documentation in R/plot_sobol.R
 \name{plot_sobol}
 \alias{plot_sobol}
-\title{Plot Sobol' first and total-order indices}
+\title{Visualization of first, total, second and third order Sobol' indices.}
 \usage{
-plot_sobol(x, dummy = NULL, type = 1)
+plot_sobol(data, order = "first", dummy = NULL)
 }
 \arguments{
-\item{x}{A data.table.}
+\item{data}{The output of \code{\link{sobol_indices}}.}
 
-\item{dummy}{The output of the \code{sobol_ci_dummy} function. If supplied and
-\code{type = 1}, the plot includes an horizontal transparent frame showing the confidence
-intervals of the first and total-order indices for the dummy parameter.}
+\item{order}{If \code{order = "first"}, it plots first and total-order effects.
+If \code{order = "second"}, it plots second-order effects. If \code{order = "third"}, it plots
+third-order effects. Default is \code{order = "first"}.}
 
-\item{type}{An integer. If \code{type = 1}, it plots first and total effects.
-If \code{type = 2}, it plots second-order effects. If \code{type = 3}, it plots
-third-order effects. Default is \code{type = 1}.}
+\item{dummy}{The output of \code{\link{sobol_dummy}}. Default is NULL.}
 }
 \value{
-A ggplot object.
+A \code{ggplot} object.
 }
 \description{
-Plot Sobol' first and total-order indices
+It plots first, total, second and third order Sobol' indices.
 }
 \examples{
-# Define settings:
-n <- 500; k <- 8; R <- 100
-# Design the sample matrix:
-A <- sobol_matrices(n = n, k = k, second = TRUE, third = TRUE)
-# Compute the model output:
-Y <- sobol_Fun(A)
-# Compute the Sobol' indices:
-\donttest{sens <- sobol_indices(Y = Y, params = colnames(data.frame(A)),
-R = R, n = n, parallel = "no", ncpus = 1, second = TRUE, third = TRUE)
-# Compute the Sobol' indices for the dummy parameter:
-s.dummy <- sobol_dummy(Y = Y, params = colnames(data.frame(A)), R = R, n = n)
-# Compute confidence intervals:
-sens.ci <- sobol_ci(sens, params = colnames(data.frame(A)), type = "norm", conf = 0.95)
-# Compute confidence intervals for the dummy parameter:
-s.dummy.ci <- sobol_ci_dummy(s.dummy, type = "norm", conf = 0.95)
-# Plot Sobol' indices:
-plot_sobol(sens.ci, dummy = s.dummy.ci, type = 1)}
+# Define settings
+N <- 1000; params <- paste("X", 1:3, sep = ""); R <- 10
+
+# Create sample matrix
+mat <- sobol_matrices(N = N, params = params)
+
+# Compute Ishigami function
+Y <- ishigami_Fun(mat)
+
+# Compute and bootstrap Sobol' indices
+ind <- sobol_indices(Y = Y, N = N, params = params, boot = TRUE, R = R)
+
+# Plot Sobol' indices
+plot_sobol(data = ind)
 }

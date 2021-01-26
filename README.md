@@ -1,12 +1,9 @@
-[![Travis build status](https://travis-ci.org/arnaldpuy/sensobol.svg?branch=master)](https://travis-ci.org/arnaldpuy/sensobol) [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/arnaldpuy/sensobol?branch=master&svg=true)](https://ci.appveyor.com/project/arnaldpuy/sensobol) [![CRAN_Status_Badge_version_last_release](https://www.r-pkg.org/badges/version-last-release/sensobol)](https://cran.r-project.org/package=sensobol) [![metacran downloads](https://cranlogs.r-pkg.org/badges/last-week/sensobol)](https://cran.r-project.org/package=sensobol) [![metacran downloads](https://cranlogs.r-pkg.org/badges/grand-total/sensobol)](https://cran.r-project.org/package=sensobol) [![Coverage status](https://codecov.io/gh/arnaldpuy/sensobol/branch/master/graph/badge.svg)](https://codecov.io/github/arnaldpuy/sensobol?branch=master) [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2579855.svg)](https://doi.org/10.5281/zenodo.2579855)
+[![Codecov test coverage](https://codecov.io/gh/arnaldpuy/sensobol/branch/master/graph/badge.svg)](https://codecov.io/gh/arnaldpuy/sensobol?branch=master)
+ 
+ 
+# sensobol: an R package to compute variance-based sensitivity indices
 
-# sensobol
-
-The goal of `sensobol` is to provide a set of functions to swiftly compute and visualize up to third-order Sobol' sensitivity indices. The functions allow to: 
-- Create the sample matrices for the model evaluation.
-- Compute and bootstrap up to third-order effects.
-- Assess the approximation error of Sobol' indices.
-- Plot the model uncertainty and the Sobol' indices.
+The ``R`` package ``sensobol`` provides several functions to conduct variance-based uncertainty and sensitivity analysis, from the estimation of sensitivity indices to the visual representation of the results. It implements several state-of-the-art first and total-order estimators and allows the computation of up to third-order effects, as well as of the approximation error, in a swift and user-friendly way.
 
 ## Installation
 To install the stable version on [CRAN](https://CRAN.R-project.org/package=sensobol), use
@@ -29,14 +26,18 @@ This brief example shows how to compute Sobol' indices. For a more detailed expl
 ## Load the package:
 library(sensobol)
 
-## Create sample matrix to compute first, total and second-order indices:
-A <- sobol_matrices(n = 1000, k = 3,  second = TRUE)
+## Define the base sample size and the parameters
+N <- 2 ^ 8
+params <- paste("X", 1:3, sep = "")
+
+## Create sample matrix to compute first and total-order indices:
+mat <- sobol_matrices(N = N, params = params)
 
 ## Compute the model output (using the Ishigami test function):
-Y <- ishigami_Mapply(A)
+Y <- ishigami_Fun(mat)
 
-## Compute the Sobol' indices (first, total and second-order):
-sens <- sobol_indices(Y = Y, params = colnames(data.frame(A)), R = 100, n = 1000, second = TRUE)
+## Compute and bootstrap the Sobol' indices:
+ind <- sobol_indices(Y = Y, N = N, params = params)
 ```
 
 ## Citation
@@ -44,8 +45,8 @@ sens <- sobol_indices(Y = Y, params = colnames(data.frame(A)), R = 100, n = 1000
 Please use the following citation if you use `sensobol` in your publications:
 
 ```r
-Arnald Puy (2019). sensobol: Computation of High-Order Sobol' Sensitivity Indices. R package
-  version 0.2.0 http://github.com/arnaldpuy/sensobol
+Arnald Puy (2020). sensobol: Computation of High-Order Sobol' Sensitivity Indices. R package
+  version 0.3.0 http://github.com/arnaldpuy/sensobol
 ```
 
 A BibTex entry for LaTex users is:
@@ -54,8 +55,8 @@ A BibTex entry for LaTex users is:
 @Manual{,
     title = {sensobol: Computation of High-Order Sobol' Sensitivity Indices},
     author = {Arnald Puy},
-    year = {2019},
-    note = {R package version 0.2.0},
+    year = {2020},
+    note = {R package version 0.3.0},
     url = {http://github.com/arnaldpuy/sensobol},
   }
 ```

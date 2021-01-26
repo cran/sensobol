@@ -7,20 +7,32 @@
 oakley_Fun(X)
 }
 \arguments{
-\item{X}{A data frame or numeric matrix.}
+\item{X}{A data frame or numeric matrix where each column is a model input and each
+row a sample point.}
 }
 \value{
 A numeric vector with the model output.
 }
 \description{
 It implements the \insertCite{Oakley2004;textual}{sensobol} function.
-The function needs 15 model inputs. The transformation of the
-distribution of the model inputs (from uniform to normally distributed
-with mean = 0 and sd = 1) is conducted internally.
+}
+\details{
+The function requires 15 model inputs and reads as
+\deqn{y=\mathbf{a}_1^T \bm{x} + \mathbf{a}_2 ^ T \sin(\mathbf{x}) + \mathbf{a}_3 ^ T \cos(\mathbf{x}) + \mathbf{x}^T \mathbf{M}\mathbf{x}\,,}
+where \eqn{\mathbf{x}=x_1,x_2,...,x_k}, \eqn{k=15}, and values
+for \eqn{\mathbf{a}^T_i,i=1,2,3} and \eqn{\mathbf{M}} are defined by \insertCite{Oakley2004;textual}{sensobol}. The
+transformation of the distribution of the model inputs from \eqn{U(0, 1)} to
+\eqn{N(0, 1)}) is conducted internally.
 }
 \examples{
-A <- sobol_matrices(n = 100, k = 15)
-Y <- oakley_Fun(A)
+# Define settings
+N <- 100; params <- paste("X", 1:15, sep = "")
+
+# Create sample matrix
+mat <- sobol_matrices(N = N, params = params)
+
+# Compute Oakley and O'Hagan (2004) function
+Y <- oakley_Fun(mat)
 }
 \references{
 \insertAllCited{}

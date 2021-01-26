@@ -4,48 +4,66 @@
 \alias{sobol_dummy}
 \title{Computation of Sobol' indices for a dummy parameter}
 \usage{
-sobol_dummy(Y, params, R, n, parallel = "no", ncpus = 1)
+sobol_dummy(
+  Y,
+  N,
+  params,
+  boot = FALSE,
+  R = NULL,
+  parallel = "no",
+  ncpus = 1,
+  conf = 0.95,
+  type = "norm"
+)
 }
 \arguments{
-\item{Y}{Numeric vector, model output.}
+\item{Y}{A numeric vector with the model output obtained from the matrix created with
+\code{\link{sobol_matrices}}.}
 
-\item{params}{Vector with the name of the model inputs.}
+\item{N}{Positive integer, the initial sample size of the base sample matrix created with \code{\link{sobol_matrices}}.}
 
-\item{R}{Integer, number of bootstrap replicas.}
+\item{params}{A character vector with the name of the model inputs.}
 
-\item{n}{Integer, sample size of the sample matrix.}
+\item{boot}{Logical. If TRUE, the function bootstraps the Sobol' indices. If FALSE, it provides point
+estimates. Default is \code{boot = FALSE}.}
+
+\item{R}{Positive integer, number of bootstrap replicas.}
 
 \item{parallel}{The type of parallel operation to be used (if any).
 If missing, the default is taken from the option "boot.parallel"
 (and if that is not set, "no"). For more information, check the
 \code{parallel} option in the \code{boot} function of the \code{\link{boot}} package.}
 
-\item{ncpus}{Integer: number of processes to be used in parallel operation:
+\item{ncpus}{Positive integer: number of processes to be used in parallel operation:
 typically one would chose this to the number of available CPUs.
 Check the \code{ncpus} option in the \code{boot} function of the \code{\link{boot}} package.}
+
+\item{conf}{Confidence intervals, number between 0 and 1. Default is \code{conf = 0.95}.}
+
+\item{type}{Method to compute the confidence intervals. Default is \code{type = "norm"}.
+Check the \code{type} option in the \code{boot} function of the \code{\link{boot}} package.}
 }
 \value{
-A data.table object. It includes a column with the results of the bootstrap.
+A \code{data.table} object.
 }
 \description{
 This function computes first and total-order Sobol' indices for a dummy
-parameter following the formulas shown
+parameter following the formulae shown
 in \insertCite{KhorashadiZadeh2017;textual}{sensobol}.
 }
 \examples{
-# Define settings:
-n <- 100; k <- 8; R <- 10
-# Design the sample matrix:
-A <- sobol_matrices(n = n, k = k, second = TRUE, third = TRUE)
-# Compute the model output:
-Y <- sobol_Fun(A)
-# Compute the Sobol' indices for the dummy parameter:
-sobol_dummy(Y = Y, params = colnames(data.frame(A)), R = R, n = n)
+# Define settings
+N <- 100; params <- paste("X", 1:3, sep = ""); R <- 10
+
+# Create sample matrix
+mat <- sobol_matrices(N = N, params = params)
+
+# Compute Ishigami function
+Y <- ishigami_Fun(mat)
+
+# Compute and bootstrap Sobol' indices for dummy parameter
+ind.dummy <- sobol_dummy(Y = Y, N = N, params = params, boot = TRUE, R = R)
 }
 \references{
 \insertAllCited{}
-}
-\seealso{
-Check the function \code{\link{boot}} for further details on the bootstrapping
-and the components available within the class \code{boot}.
 }

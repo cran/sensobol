@@ -1,10 +1,10 @@
 
-# Sobol ' G function -----------------------------------------------------------
+# SOBOL' G FUNCTION
+##################################################################################
 
 #' Sobol' G function
 #'
-#' It implements the \insertCite{Sobol1998;textual}{sensobol} function. In this
-#' case, the function works with 8 model inputs.
+#' It implements the \insertCite{Sobol1998;textual}{sensobol} G function.
 #'
 #' @param X A data frame or numeric matrix.
 #'
@@ -13,19 +13,32 @@
 #'
 #' @references
 #' \insertAllCited{}
+#'
+#' @details The function requires eight model inputs and reads as
+#' \deqn{y=\prod_{i=1}^{k} \frac{|4 x_i - 2| + a_i}{1 + a_i}\,,}
+#' where \eqn{k=8}, \eqn{x_i\sim\mathcal{U}(0,1)} and \eqn{a=(0, 1, 4.5, 9, 99, 99, 99, 99)}.
+#'
 #' @examples
-#' A <- sobol_matrices(n = 100, k = 8)
-#' Y <- sobol_Fun(A)
+#' # Define settings
+#' N <- 100; params <- paste("X", 1:8, sep = "")
+#'
+#' # Create sample matrix
+#' mat <- sobol_matrices(N = N, params = params)
+#'
+#' # Compute Sobol' G
+#' Y <- sobol_Fun(mat)
 sobol_Fun <- function(X) {
   a <- c(0, 1, 4.5, 9, 99, 99, 99, 99)
   y <- 1
+
   for (j in 1:8) {
     y <- y * (abs(4 * X[, j] - 2) + a[j])/(1 + a[j])
   }
   return(y)
 }
 
-# Ishigami function -----------------------------------------------------------
+# ISHIGAMI FUNCTION
+##################################################################################
 
 ishigami <- function(X1, X2, X3) {
   A <- 2
@@ -35,12 +48,10 @@ ishigami <- function(X1, X2, X3) {
 
 #' Ishigami function
 #'
-#' It implements the \insertCite{Ishigami1990;textual}{sensobol} function,
-#' which requires 3 model inputs. The transformation of the
-#' distribution of the model inputs (from U(0, 1) to U(-pi, +pi)) is conducted
-#' internally.
+#' It implements the \insertCite{Ishigami1990;textual}{sensobol} function.
 #'
-#' @param X A data frame or numeric matrix.
+#' @param X A data frame or numeric matrix where each column is a model input and each
+#' row a sample point.
 #'
 #' @return A numeric vector with the model output.
 #' @export
@@ -48,11 +59,22 @@ ishigami <- function(X1, X2, X3) {
 #' @references
 #' \insertAllCited{}
 #'
+#' @details The function requires 3 model inputs and reads as
+#' \deqn{y=\sin(x_1) +a \sin(x_2) ^ 2 + b x_3 ^4 \sin(x_1)\,,}
+#' where \eqn{a=2}, \eqn{b=1} and \eqn{(x_1,x_2,x_3)\sim\mathcal{U}(-\pi, +\pi)}. The
+#' transformation of the distribution of the model inputs from \eqn{U(0, 1)} to
+#' \eqn{U(-\pi, +\pi)}) is conducted internally.
+#'
 #' @examples
-#' A <- sobol_matrices(n = 100, k = 3)
-#' Y <- ishigami_Mapply(A)
-ishigami_Mapply <- function(X) {
-  warning("ishigami_Mapply will be substituted by ishigami_Fun in the next release of the package")
+#' # Define settings
+#' N <- 100; params <- paste("X", 1:3, sep = "")
+#'
+#' # Create sample matrix
+#' mat <- sobol_matrices(N = N, params = params)
+#'
+#' # Compute Ishigami function
+#' Y <- ishigami_Fun(mat)
+ishigami_Fun <- function(X) {
   X <- apply(X, 2, function(x) x * (pi + pi) - pi)
   return(mapply(ishigami,
                 X[, 1],
@@ -60,29 +82,40 @@ ishigami_Mapply <- function(X) {
                 X[, 3]))
 }
 
-# Bratley et al. function -----------------------------------------------------
+# BRATLEY ET AL 1992 FUNCTION
+##################################################################################
 
-
-#' Bratley, Fox and Niederreiter (1992) function
+#' Bratley, Fox and Niederreiter (1992) function.
 #'
-#' It implements the \insertCite{Bratley1992;textual}{sensobol} function,
-#' #' which requires \emph{n} model inputs.
+#' It implements the \insertCite{Bratley1992;textual}{sensobol} function.
 #'
-#' @param X A data frame or numeric matrix.
+#' @param X A data frame or numeric matrix where each column is a model input and each
+#' row a sample point.
 #'
 #' @return A numeric vector with the model output.
 #' @export
 #' @references
 #' \insertAllCited{}
 #'
+#' @details The function requires \eqn{k} model inputs and reads as:
+#' \deqn{y=\sum_{i=1}^{k}(-1)^i\prod_{j=1}^{i}x_j\,,}
+#' where \eqn{x_i\sim\mathcal{U}(0,1)}.
+#'
 #' @examples
-#' A <- sobol_matrices(n = 100, k = 4)
-#' Y <- bratley1992_Fun(A)
+#' # Define settings (test with k = 10)
+#' N <- 100; params <- paste("X", 1:10, sep = "")
+#'
+#' # Create sample matrix
+#' mat <- sobol_matrices(N = N, params = params)
+#'
+#' # Compute Bratley et al. (1992) function
+#' Y <- bratley1992_Fun(mat)
 bratley1992_Fun <- function(X) {
   # Preallocate
   mat <- tmp <- vector(mode = "list", length = nrow(X))
   Y <- vector(mode = "numeric", length = nrow(X))
-  for(i in 1:nrow(X)) {
+
+  for (i in 1:nrow(X)) {
     mat[[i]] <- matrix(rep(X[i, ], times = ncol(X)),
                        nrow = ncol(X),
                        ncol = ncol(X),
@@ -94,39 +127,50 @@ bratley1992_Fun <- function(X) {
   return(Y)
 }
 
-# Bratley and Fox (1988) function ---------------------------------------------
+# BRATLEY AND FOX 1988 FUNCTION
+##################################################################################
 
 #' Bratley and Fox (1988) function
 #'
-#' It implements the \insertCite{Bratley1988;textual}{sensobol} function,
-#' which requires \emph{n} model inputs.
+#' It implements the \insertCite{Bratley1988;textual}{sensobol} function.
 #'
-#' @param X A data frame or numeric matrix.
+#' @param X A data frame or numeric matrix where each column is a model input and each
+#' row a sample point.
 #'
 #' @return A numeric vector with the model output.
+#'
+#' @details The function requires \eqn{k} model inputs and reads as follows:
+#' \deqn{y=\prod_{i=1}^{k} |4x_i - 2 |\,,}
+#' where \eqn{x_i\sim\mathcal{U}(0,1)}.
 #'
 #' @export
 #'
 #' @examples
-#' A <- sobol_matrices(n = 100, k = 6)
-#' Y <- bratley1988_Fun(A)
+#' # Define settings (test with k = 10)
+#' N <- 100; params <- paste("X", 1:10, sep = "")
+#'
+#' # Create sample matrix
+#' mat <- sobol_matrices(N = N, params = params)
+#'
+#' # Compute Bratley and Fox (1988) function
+#' Y <- bratley1988_Fun(mat)
 bratley1988_Fun <- function(X) {
   y <- 1
+
   for (j in 1:ncol(X)) {
     y <- y * (abs(4 * X[, j] - 2))}
   return(y)
 }
 
-# Oakley and O'Hagan function -------------------------------------------------
+# OAKLEY AND O'HAGAN FUNCTION
+##################################################################################
 
 #' Oakley & O'Hagan (2004) function
 #'
 #' It implements the \insertCite{Oakley2004;textual}{sensobol} function.
-#' The function needs 15 model inputs. The transformation of the
-#' distribution of the model inputs (from uniform to normally distributed
-#' with mean = 0 and sd = 1) is conducted internally.
 #'
-#' @param X A data frame or numeric matrix.
+#' @param X A data frame or numeric matrix where each column is a model input and each
+#' row a sample point.
 #'
 #' @return A numeric vector with the model output.
 #'
@@ -134,9 +178,22 @@ bratley1988_Fun <- function(X) {
 #' @references
 #' \insertAllCited{}
 #'
+#' @details The function requires 15 model inputs and reads as
+#' \deqn{y=\mathbf{a}_1^T \bm{x} + \mathbf{a}_2 ^ T \sin(\mathbf{x}) + \mathbf{a}_3 ^ T \cos(\mathbf{x}) + \mathbf{x}^T \mathbf{M}\mathbf{x}\,,}
+#' where \eqn{\mathbf{x}=x_1,x_2,...,x_k}, \eqn{k=15}, and values
+#' for \eqn{\mathbf{a}^T_i,i=1,2,3} and \eqn{\mathbf{M}} are defined by \insertCite{Oakley2004;textual}{sensobol}. The
+#' transformation of the distribution of the model inputs from \eqn{U(0, 1)} to
+#' \eqn{N(0, 1)}) is conducted internally.
+#'
 #' @examples
-#' A <- sobol_matrices(n = 100, k = 15)
-#' Y <- oakley_Fun(A)
+#' # Define settings
+#' N <- 100; params <- paste("X", 1:15, sep = "")
+#'
+#' # Create sample matrix
+#' mat <- sobol_matrices(N = N, params = params)
+#'
+#' # Compute Oakley and O'Hagan (2004) function
+#' Y <- oakley_Fun(mat)
 oakley_Fun <- function(X) {
 
   a1 <- c(0.0118, 0.0456, 0.2297, 0.0393, 0.1177,
@@ -188,9 +245,127 @@ oakley_Fun <- function(X) {
   Y <- vector()
   # transformation to normal distribution
   X <- apply(X, 2, function(x) stats::qnorm(x))
-  for(i in 1:nrow(X)) {
+
+  for (i in 1:nrow(X)) {
     mat <- matrix(X[i, ])
     Y[i] <- a1 %*% mat + a2 %*% sin(mat) + a3 %*% cos(mat) + t(mat) %*% M %*% mat
   }
   return(Y)
 }
+
+# BECKER 2020 METAFUNCTION
+##################################################################################
+
+# Define the list of functions
+function_list <- list(
+  Linear = function(x) x,
+  Quadratic = function(x) x ^ 2,
+  Cubic = function(x) x ^ 3,
+  Exponential = function(x) exp(1) ^ x / (exp(1) - 1),
+  Periodic = function(x) sin(2 * pi * x) / 2,
+  Discontinuous = function(x) ifelse(x > 0.5, 1, 0),
+  Non.monotonic = function(x) 4 * (x - 0.5) ^ 2,
+  Inverse = function(x) (10 - 1 / 1.1) ^ -1 * (x + 0.1) ^ - 1,
+  No.effect = function(x) x * 0,
+  Trigonometric = function(x) cos(x)
+)
+
+#' Random metafunction based on \insertCite{Becker2020;textual}{sensobol}'s metafunction.
+#'
+#' @param data A numeric matrix where each column is a model input and each row a sampling point.
+#' @param k_2 Numeric value indicating the fraction of active pairwise interactions (between 0 and 1).
+#' Default is \code{k_2 = 0.5}.
+#' @param k_3 Numeric value indicating the fraction of active three-wise interactions
+#' (between 0 and 1). Default is \code{k_2 = 0.2}.
+#' @param epsilon Integer value. It fixes the seed for the random number generator.
+#' The default is \code{epsilon = NULL}.
+#' @return A numeric vector with the function output.
+#' @export
+#'
+#' @importFrom Rdpack reprompt
+#'
+#' @details The metafunction randomly combines the following functions in a metafunction of dimension \eqn{k}:
+#' * \eqn{f(x) = x ^ 3} (cubic).
+#' * \eqn{f(x) = 1~\mbox{if}(x > 0.5), 0~\mbox{otherwise}} (discontinuous).
+#' * \eqn{f(x) = \frac{e ^ x}{e - 1}} (exponential).
+#' * \eqn{f(x) = \frac{10 - 1}{1.1} ^ {-1} (x + 0.1) ^ {-1}} (inverse).
+#' * \eqn{f(x) = x} (linear)
+#' * \eqn{f(x) = 0} (no effect).
+#' * \eqn{f(x) = 4(x - 0.5) ^  2} (non-monotonic).
+#' * \eqn{f(x) = \frac{\sin (2 \pi x)}{2}} (periodic).
+#' * \eqn{f(x) = x ^ 2} (quadratic).
+#' * \eqn{f(x) = \cos(x)} (trigonometric).
+#'
+#' It is constructed as follows:
+#'
+#' \deqn{y=\sum_{i=1}^{k}\alpha_i f^{u_i}(x_i) \\
+#'  + \sum_{i=1}^{k_2}\beta_i f^{u_{V_{i,1}}}(x_{V_{i,1}}) f^{u_{V_{i,2}}} (x_{V_{i,2}}) \\
+#' + \sum_{i=1}^{k_3}\gamma_i f^{u_{W_{i,1}}}(x_{W_{i,1}}) f^{u_{W_{i,2}}}(x_{W_{i,2}}) f^{u_{W_{i,3}}} (x_{W_{i,3}})}
+#'
+#' where \eqn{k} is the model dimensionality, \eqn{u} is a \eqn{k}-length vector formed by randomly
+#' sampling with replacement the ten functions mentioned above, \eqn{V} and \eqn{W} are two matrices specifying the
+#' number of pairwise and three-wise interactions given the model dimensionality,
+#' and \eqn{\mathbf{\alpha}, \mathbf{\beta}, \mathbf{\gamma}} are three
+#' vectors of length \eqn{k} generated by sampling from a mixture of two normal distributions
+#' \eqn{\Psi=0.3\mathcal{N}(0, 5) + 0.7\mathcal{N}(0, 0.5)}.
+#' See \insertCite{Puyj;textual}{sensobol} and \insertCite{Becker2020;textual}{sensobol} for a full
+#' mathematical description of the metafunction approach.
+#'
+#' @references
+#' \insertAllCited{}
+#' @examples
+#' # Define settings (number of model inputs = 86)
+#' N <- 100; params <- paste("X", 1:86, sep = "")
+#'
+#' # Create sample matrix
+#' mat <- sobol_matrices(N = N, params = params)
+#'
+#' # Compute metafunction
+#' Y <- metafunction(mat)
+metafunction <- function(data, k_2 = 0.5, k_3 = 0.2, epsilon = NULL) {
+  k <- ncol(data)
+  set.seed(epsilon)
+  all_functions <- sample(names(function_list), k, replace = TRUE)
+  set.seed(epsilon)
+  components <- sample(1:2, prob = c(0.7, 0.3), size = 200, replace = TRUE)
+  mus <- c(0, 0)
+  sds <- sqrt(c(0.5, 5))
+  set.seed(epsilon)
+  coefficients <- stats::rnorm(100) * sds[components] + mus[components]
+  set.seed(epsilon)
+  coefD1 <- sample(coefficients, k)
+  d2 <- t(utils::combn(1:k, 2))
+  set.seed(epsilon)
+  d2M <- d2[sample(nrow(d2), size = ceiling(k * k_2), replace = FALSE), ]
+  sample.size.d2M <- ifelse(is.vector(d2M) == TRUE, 1, nrow(d2M))
+  set.seed(epsilon)
+  coefD2 <- sample(coefficients, sample.size.d2M, replace = TRUE)
+  d3 <- t(utils::combn(1:k, 3))
+  set.seed(epsilon)
+  size.d3 <- ifelse(nrow(d3) == 1, 1, ceiling(k * k_3))
+  set.seed(epsilon)
+  d3M <- d3[sample(nrow(d3), size = size.d3, replace = FALSE), ]
+  sample.size <- ifelse(is.vector(d3M) == TRUE, 1, nrow(d3M))
+  set.seed(epsilon)
+  coefD3 <- sample(coefficients, sample.size, replace = TRUE)
+  output <- sapply(seq_along(all_functions), function(x) function_list[[all_functions[x]]](data[, x]))
+  y1 <- Rfast::rowsums(mmult(output, coefD1))
+
+  if (is.vector(d2M) == TRUE) {
+    y2 <- sum(output[, d2M[1]] *  output[, d2M[2]] * coefD2)
+
+  } else {
+    y2 <- Rfast::rowsums(mmult(output[, d2M[, 1]] *  output[, d2M[, 2]], coefD2))
+  }
+
+  if (is.vector(d3M) == TRUE) {
+    y3 <- sum(output[, d3M[1]] *  output[, d3M[2]] * output[, d3M[3]] * coefD3)
+
+  } else {
+    y3 <- Rfast::rowsums(mmult(output[, d3M[, 1]] *  output[, d3M[, 2]] * output[, d3M[, 3]], coefD3))
+  }
+  Y <- y1 + y2 + y3
+  return(Y)
+}
+
+

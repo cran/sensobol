@@ -7,16 +7,27 @@
 bratley1988_Fun(X)
 }
 \arguments{
-\item{X}{A data frame or numeric matrix.}
+\item{X}{A data frame or numeric matrix where each column is a model input and each
+row a sample point.}
 }
 \value{
 A numeric vector with the model output.
 }
 \description{
-It implements the \insertCite{Bratley1988;textual}{sensobol} function,
-which requires \emph{n} model inputs.
+It implements the \insertCite{Bratley1988;textual}{sensobol} function.
+}
+\details{
+The function requires \eqn{k} model inputs and reads as follows:
+\deqn{y=\prod_{i=1}^{k} |4x_i - 2 |\,,}
+where \eqn{x_i\sim\mathcal{U}(0,1)}.
 }
 \examples{
-A <- sobol_matrices(n = 100, k = 6)
-Y <- bratley1988_Fun(A)
+# Define settings (test with k = 10)
+N <- 100; params <- paste("X", 1:10, sep = "")
+
+# Create sample matrix
+mat <- sobol_matrices(N = N, params = params)
+
+# Compute Bratley and Fox (1988) function
+Y <- bratley1988_Fun(mat)
 }
