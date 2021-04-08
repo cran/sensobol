@@ -1,6 +1,6 @@
 Package: sensobol
 Title: Computation of Variance-Based Sensitivity Indices
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(person(given = "Arnald", 
                     family = "Puy",
                     role = c("aut", "cre"),
@@ -16,7 +16,7 @@ Authors@R: c(person(given = "Arnald",
                     role = "cph", 
                     comment = "Copyright holder of included 'sensitivity' fragments"))
 Maintainer: Arnald Puy <arnald.puy@pm.me>
-Description: It allows to rapidly compute, bootstrap and plot up to third-order Sobol'-based sensitivity indices using several state-of-the-art first and total-order estimators. Sobol' indices can be computed either for models that yield a scalar as a model output or for systems of differential equations. The package also provides a suit of benchmark tests functions and several options to obtain publication-ready figures of the model output uncertainty and sensitivity-related analysis.
+Description: It allows to rapidly compute, bootstrap and plot up to third-order Sobol'-based sensitivity indices using several state-of-the-art first and total-order estimators. Sobol' indices can be computed either for models that yield a scalar as a model output or for systems of differential equations. The package also provides a suit of benchmark tests functions and several options to obtain publication-ready figures of the model output uncertainty and sensitivity-related analysis. An overview of Sobol'-based sensitivity indices can be found in Saltelli et al. (2008, ISBN:9780470059975) and in Puy, Lo Piano, Saltelli, and Levin (2021) <arXiv:2101.10103>.
 License: GPL-3
 Encoding: UTF-8
 Imports: boot (>= 1.3.20), data.table (>= 1.12.0), ggplot2 (>= 3.1.0),
@@ -25,7 +25,6 @@ Imports: boot (>= 1.3.20), data.table (>= 1.12.0), ggplot2 (>= 3.1.0),
         Rfast (>= 2.0.1), rlang (>= 0.3.1), scales (>= 1.0.0), stats,
         stringr (>= 1.4.0), utils, Rcpp
 RdMacros: Rdpack
-LazyData: true
 Depends: R (>= 3.5.0)
 RoxygenNote: 7.1.1
 Suggests: knitr, rmarkdown, testthat (>= 2.1.0), covr
@@ -34,10 +33,10 @@ URL: https://github.com/arnaldpuy/sensobol
 BugReports: https://github.com/arnaldpuy/sensobol/issues
 LinkingTo: Rfast, Rcpp, RcppArmadillo,
 NeedsCompilation: yes
-Packaged: 2021-01-26 20:37:57 UTC; arnald
+Packaged: 2021-04-08 14:15:21 UTC; arnald
 Author: Arnald Puy [aut, cre] (<https://orcid.org/0000-0001-9469-2156>),
   Bertrand Ioos [ctb] (Author of included 'sensitivity' fragments),
   Gilles Pujol [ctb] (Author of included 'sensitivity' fragments),
   RStudio [cph] (Copyright holder of included 'sensitivity' fragments)
 Repository: CRAN
-Date/Publication: 2021-01-27 00:30:02 UTC
+Date/Publication: 2021-04-08 21:40:02 UTC
