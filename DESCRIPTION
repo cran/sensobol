@@ -1,6 +1,6 @@
 Package: sensobol
 Title: Computation of Variance-Based Sensitivity Indices
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: c(person(given = "Arnald", 
                     family = "Puy",
                     role = c("aut", "cre"),
@@ -33,10 +33,10 @@ URL: https://github.com/arnaldpuy/sensobol
 BugReports: https://github.com/arnaldpuy/sensobol/issues
 LinkingTo: Rfast, Rcpp, RcppArmadillo,
 NeedsCompilation: yes
-Packaged: 2021-04-08 14:15:21 UTC; arnald
+Packaged: 2021-05-30 07:55:41 UTC; arnald
 Author: Arnald Puy [aut, cre] (<https://orcid.org/0000-0001-9469-2156>),
   Bertrand Ioos [ctb] (Author of included 'sensitivity' fragments),
   Gilles Pujol [ctb] (Author of included 'sensitivity' fragments),
   RStudio [cph] (Copyright holder of included 'sensitivity' fragments)
 Repository: CRAN
-Date/Publication: 2021-04-08 21:40:02 UTC
+Date/Publication: 2021-05-30 08:10:03 UTC
