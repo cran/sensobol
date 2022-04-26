@@ -1,13 +1,26 @@
-citHeader("To cite reports in publications, please use:")
+citHeader("To cite sensobol in publications use:
 
+Arnald Puy, Samuele Lo Piano, Andrea Saltelli, Simon A. Levin. 2022. sensobol: An R Package to Compute Variance-Based Sensitivity Indices. Journal of Statistical Software 102(5), 1-37. doi:10.18637/jss.v102.i05.")
 
-citEntry(entry = "manual",
-    title = "{sensobol}: {C}omputation of Variance-Based Sensitivity Indices",
-    author = "Arnald Puy, Samuele Lo Piano, Andrea Satelli, Simon A. Levin",
-    journal = "arxiv:2101.10103",
-    year = "2021",
-    url = "https://github.com/arnaldpuy/sensobol",
-    textVersion  = paste("A. Puy, S. Lo Piano, A. Saltelli, S. A. Levin (2021).",
-        "sensobol: Computation of Variance-Based Sensitivity Indices.",
-        "arxiv:2101.10103.")
+citEntry(
+  entry    = "Article",
+  title    = "{sensobol}: An {R} Package to Compute Variance-Based Sensitivity Indices",
+  author   = c(person(given = "Arnald",
+                          family = "Puy",
+                          email = "apuy@princeton.edu"),
+                   person(given = c("Samuele", "Lo"),
+                          family = "Piano"),
+                   person(given = "Andrea",
+                          family = "Saltelli"),
+                   person(given = c("Simon", "A."),
+                          family = "Levin")),
+  journal  = "Journal of Statistical Software",
+  year     = "2022",
+  volume   = "102",
+  number   = "5",
+  pages    = "1--37",
+  doi      = "10.18637/jss.v102.i05",
+  textVersion = paste(
+
+  )
 )

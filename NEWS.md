@@ -1,3 +1,15 @@
+# sensobol 1.1.1
+
+* The CITATION file has changed. Citations to sensobol should now refer to the paper published in the Journal of Statistical Software: 
+
+Arnald Puy, Samuele Lo Piano, Andrea Saltelli, and Simon A. Levin. sensobol: an R package to compute variance-based sensitivity indices. Journal of Statistical Software 102.5 (2022), pp. 1-37. doi: 10.18637/jss.v102.i05
+
+* The metafunction has been extended with a piecewise large, piecewise small and an oscillation function.
+
+# sensobol 1.1.0
+
+* The package now includes support to calculate and plot up to fourth-order effects.
+
 # sensobol 1.0.4
 
 * Fixed redundant links in the bibliography in .Rd files.
