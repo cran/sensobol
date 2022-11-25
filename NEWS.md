@@ -1,3 +1,7 @@
+# sensobol 1.1.3
+
+* Added the function "load_packages" to load (and install in case they are not already in the local R setup) all required libraries in just one call.
+
 # sensobol 1.1.2
 
 * Fixed a bug on sobol_matrices that caused the function to fail when a single parameter was passed into the "params" argument.
