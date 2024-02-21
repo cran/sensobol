@@ -1,6 +1,6 @@
-7486ddcc31dcdb7b0cbb63451d74fdb0 *DESCRIPTION
+3610016d3309457c3ddf1aefe9ce9e7e *DESCRIPTION
 55a3382a649cf02f4a98f104e8af6eab *NAMESPACE
-e0cf9a5a3a4152191879ccc8552ff82f *NEWS.md
+9c28bb3af53445ecfb16463688544975 *NEWS.md
 0c801fa4c846a127d7f96c5099f8a8da *R/RcppExports.R
 5c82a104634953e1256edd0d70a62f84 *R/discrepancy_ersatz.R
 94a04fbdaf846637e3b471b3d944d0d4 *R/load_packages.R
@@ -14,12 +14,12 @@ d5e0c91da76440275e48b5360fc4bebc *R/test_functions.R
 d8e0c9d4afb07c1cdf76bcad58653325 *R/vars_matrices.R
 99b3d642bb16cc84ba3947aad310b59f *R/vars_to.R
 f154ad284727b20eeb545c235fd825b3 *README.md
-0ef24ddb79a7381aca220f491c7f2fcd *build/partial.rdb
-3e759e704eb34d6c0da5054ab31ced63 *build/vignette.rds
+06a4c549082528b32252bb84367651b3 *build/partial.rdb
+27b8e8ee93bed0914f825ce19c52a028 *build/vignette.rds
 a4872310d3bada46f674e32933ba4fd3 *inst/CITATION
-2b9a0139179b8a73e63e251442fa44f2 *inst/REFERENCES.bib
+dadb570b2bf14c545a3c42d391743181 *inst/REFERENCES.bib
 d6a2d758d90575fcaca1e2ac7e603ee3 *inst/doc/sensobol.Rnw
-30081faacfa79e33b88554b99c46564d *inst/doc/sensobol.pdf
+563aed7141a2b78ca97cd7e5bda8af16 *inst/doc/sensobol.pdf
 212a70555920a97bdd713c27f6d5c77d *man/bratley1988_Fun.Rd
 855c400ce39fc9bfcb63137d2a140925 *man/bratley1992_Fun.Rd
 ef1ecc40663435a8bd562604574fb4ab *man/discrepancy_ersatz.Rd
